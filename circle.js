@@ -15,7 +15,8 @@ function Circle(x, y, color) {
     noStroke();
     fill(this.color);
     // https://stackoverflow.com/questions/60179313/how-to-fill-p5-js-shape-with-an-image
-    ellipse(this.x, this.y, this.r * 2, this.r * 2);
+    //ellipse(this.x, this.y, this.r * 2, this.r * 2);
+    square(this.x, this.y, this.r);
   };
 
   this.edges = function () {

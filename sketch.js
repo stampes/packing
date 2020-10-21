@@ -1,7 +1,7 @@
 let circles;
 let img;
-let pixelsPerFrame = 100;
-let growthSpeed = 2.5;
+let pixelsPerFrame = 200;
+let growthSpeed = 2;
 let maxLoops = 3000;
 let tiles = [];
 let tilesDb;
@@ -36,11 +36,13 @@ function preload() {
 
 function setup() {
   createCanvas(img.width, img.height);
+  rectMode(CENTER);
+  square(20, 20, 100);
   let density = displayDensity();
   //pixelDensity(1);
   img.loadPixels();
   circles = [];
-  tilesDb = loadJSON("mapping.json", loadTiles);
+  // tilesDb = loadJSON("mapping.json", loadTiles);
 }
 
 function draw() {
