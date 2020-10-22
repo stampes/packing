@@ -2,7 +2,7 @@ let TileObjects;
 let img;
 let pixelsPerFrame = 100;
 let growthSpeed = 4;
-let maxLoops = 1000;
+let maxLoops = 500;
 let tiles = [];
 let tilesDb;
 let largeTiles = 0;
@@ -37,7 +37,6 @@ function preload() {
 
 function setup() {
   createCanvas(img.width, img.height);
-  square(20, 20, 100);
   let density = displayDensity();
   //pixelDensity(1);
   img.loadPixels();
