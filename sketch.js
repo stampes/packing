@@ -1,10 +1,12 @@
 let TileObjects;
 let img;
-let pixelsPerFrame = 10;
-let growthSpeed = 3;
+let pixelsPerFrame = 100;
+let growthSpeed = 4;
 let maxLoops = 3000;
 let tiles = [];
 let tilesDb;
+let largeTiles = 0;
+let largeLimit = 40;
 
 function extractImg(src) {
   return src.map(element => {
@@ -21,7 +23,6 @@ function storeTile(tileimg, error) {
   }
 }
 
-
 function loadTiles(src) {
   let imgs = extractImg(src);
   ims = [...new Set(imgs)];
@@ -36,7 +37,6 @@ function preload() {
 
 function setup() {
   createCanvas(img.width, img.height);
-  rectMode(CENTER);
   square(20, 20, 100);
   let density = displayDensity();
   //pixelDensity(1);
@@ -64,21 +64,25 @@ function draw() {
       console.log("finished");
       let minr = Infinity;
       let maxr = 0;
-      let tilesize = 7.5;
-      let tiles = 0;
+      let smallLimit = 7.5;
+      let smalTiles = 0;
       for (let i = 0; i < TileObjects.length; i++) {
         if (TileObjects[i].r > maxr) {
           maxr = TileObjects[i].r;
         } else if (TileObjects[i].r < minr) {
           minr = TileObjects[i].r;
         }
-        if (tilesize < TileObjects[i].r) {
-          tiles += 1;
+        if (smallLimit < TileObjects[i].r) {
+          smalTiles += 1;
+        }
+        if (largeLimit <= TileObjects[i].r) {
+          largeTiles += 1;
         }
       }
-      console.log(maxr);
-      console.log(minr);
-      console.log(tiles);
+      console.log(`largest     ${maxr}`);
+      console.log(`smallest    ${minr}`);
+      console.log(`small tiles ${smalTiles}`);
+      console.log(`large tiles ${largeTiles}`)
       console.log(TileObjects.length);
       break;
     }
@@ -94,12 +98,9 @@ function draw() {
         for (let j = 0; j < TileObjects.length; j++) {
           let other = TileObjects[j];
           if (TileObject !== other) {
-            let d = dist(TileObject.x, TileObject.y, other.x, other.y);
-            let distance = TileObject.r + other.r;
-
-            if (d - 1 < distance) {
+            if (TileObject.overlaps(other)) {
               TileObject.growing = false;
-              //other.growing = false;
+              other.growing = false;
               break;
             }
           }
