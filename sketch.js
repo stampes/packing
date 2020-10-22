@@ -1,7 +1,7 @@
-let circles;
+let TileObjects;
 let img;
-let pixelsPerFrame = 200;
-let growthSpeed = 2;
+let pixelsPerFrame = 10;
+let growthSpeed = 3;
 let maxLoops = 3000;
 let tiles = [];
 let tilesDb;
@@ -41,7 +41,7 @@ function setup() {
   let density = displayDensity();
   //pixelDensity(1);
   img.loadPixels();
-  circles = [];
+  TileObjects = [];
   // tilesDb = loadJSON("mapping.json", loadTiles);
 }
 
@@ -53,9 +53,9 @@ function draw() {
   let attempts = 0;
 
   while (count < total) {
-    let newC = newCircle();
+    let newC = newTileObject();
     if (newC !== null) {
-      circles.push(newC);
+      TileObjects.push(newC);
       count++;
     }
     attempts++;
@@ -66,39 +66,39 @@ function draw() {
       let maxr = 0;
       let tilesize = 7.5;
       let tiles = 0;
-      for (let i = 0; i < circles.length; i++) {
-        if (circles[i].r > maxr) {
-          maxr = circles[i].r;
-        } else if (circles[i].r < minr) {
-          minr = circles[i].r;
+      for (let i = 0; i < TileObjects.length; i++) {
+        if (TileObjects[i].r > maxr) {
+          maxr = TileObjects[i].r;
+        } else if (TileObjects[i].r < minr) {
+          minr = TileObjects[i].r;
         }
-        if (tilesize < circles[i].r) {
+        if (tilesize < TileObjects[i].r) {
           tiles += 1;
         }
       }
       console.log(maxr);
       console.log(minr);
       console.log(tiles);
-      console.log(circles.length);
+      console.log(TileObjects.length);
       break;
     }
   }
 
-  for (let i = 0; i < circles.length; i++) {
-    let circle = circles[i];
+  for (let i = 0; i < TileObjects.length; i++) {
+    let TileObject = TileObjects[i];
 
-    if (circle.growing) {
-      if (circle.edges()) {
-        circle.growing = false;
+    if (TileObject.growing) {
+      if (TileObject.edges()) {
+        TileObject.growing = false;
       } else {
-        for (let j = 0; j < circles.length; j++) {
-          let other = circles[j];
-          if (circle !== other) {
-            let d = dist(circle.x, circle.y, other.x, other.y);
-            let distance = circle.r + other.r;
+        for (let j = 0; j < TileObjects.length; j++) {
+          let other = TileObjects[j];
+          if (TileObject !== other) {
+            let d = dist(TileObject.x, TileObject.y, other.x, other.y);
+            let distance = TileObject.r + other.r;
 
             if (d - 1 < distance) {
-              circle.growing = false;
+              TileObject.growing = false;
               //other.growing = false;
               break;
             }
@@ -107,19 +107,19 @@ function draw() {
       }
     }
 
-    circle.show();
-    circle.grow();
+    TileObject.show();
+    TileObject.grow();
   }
 }
 
-function newCircle() {
+function newTileObject() {
   let x = random(0, img.width);
   let y = random(0, img.height);
 
   let valid = true;
-  for (let i = 0; i < circles.length; i++) {
-    let circle = circles[i];
-    if (circle.overlap(x, y)) {
+  for (let i = 0; i < TileObjects.length; i++) {
+    let TileObject = TileObjects[i];
+    if (TileObject.overlap(x, y)) {
       valid = false;
       break;
     }
@@ -130,7 +130,7 @@ function newCircle() {
     let g = img.pixels[index + 1];
     let b = img.pixels[index + 2];
     let c = color(r, g, b);
-    return new Circle(x, y, color(c));
+    return new TileObject(x, y, color(c));
   } else {
     return null;
   }
