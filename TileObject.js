@@ -4,7 +4,7 @@ function TileObject(x, y, color) {
   this.r = 2;
   this.color = color;
   this.growing = true;
-  this.type = "circle";
+  this.type = "square";
   this.initialr = 2;
 
   this.grow = function () {
@@ -14,6 +14,7 @@ function TileObject(x, y, color) {
   };
 
   this.show = function () {
+    rectMode(CORNER);
     noStroke();
     fill(this.color);
     // https://stackoverflow.com/questions/60179313/how-to-fill-p5-js-shape-with-an-image
@@ -32,18 +33,15 @@ function TileObject(x, y, color) {
     }
   };
 
-  this.overlap = function (x, y) {
+  this.overlap = function (x, y, overlapdist) {
+    if (!overlapdist) {
+      overlapdist = this.initialr;
+    }
     if (this.type == "circle") {
       let d = dist(x, y, this.x, this.y);
-      return (d - this.initialr < this.r);
+      return (d - overlapdist < this.r);
     } else {
-      if (x + this.initialr > this.x + this.r || x - this.initialr < this.x) {
-        return false;
-      }
-      if (y + this.initialr > this.y + this.r || y - this.initialr < this.y) {
-        return false;
-      }
-      return true;
+      return !((x + overlapdist > this.x + this.r) || (x - overlapdist < this.x) || (y + overlapdist > this.y + this.r) || (y - overlapdist < this.y))
     }
   };
 
@@ -54,10 +52,11 @@ function TileObject(x, y, color) {
 
       return (d - growthSpeed < distance);
     } else {
-      return this.overlap(tile.x, tile.y) ||
-        this.overlap(tile.x + tile.r, tile.y) ||
-        this.overlap(tile.x, tile.y + tile.r) ||
-        this.overlap(tile.x + tile.r, tile.y + tile.r);
+      let growthLimit = -growthSpeed
+      return this.overlap(tile.x, tile.y, growthLimit) ||
+        this.overlap(tile.x + tile.r, tile.y, growthLimit) ||
+        this.overlap(tile.x, tile.y + tile.r, growthLimit) ||
+        this.overlap(tile.x + tile.r, tile.y + tile.r, growthLimit);
     }
   }
 }

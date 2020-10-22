@@ -1,8 +1,8 @@
 let TileObjects;
 let img;
-let pixelsPerFrame = 100;
-let growthSpeed = 4;
-let maxLoops = 3000;
+let pixelsPerFrame = 80;
+let growthSpeed = 5;
+let maxLoops = 200;
 let tiles = [];
 let tilesDb;
 let largeTiles = 0;
