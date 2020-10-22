@@ -2,7 +2,7 @@ let TileObjects;
 let img;
 let pixelsPerFrame = 80;
 let growthSpeed = 5;
-let maxLoops = 200;
+let maxLoops = 2000;
 let tiles = [];
 let tilesDb;
 let largeTiles = 0;

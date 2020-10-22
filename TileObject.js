@@ -52,7 +52,7 @@ function TileObject(x, y, color) {
 
       return (d - growthSpeed < distance);
     } else {
-      let growthLimit = -growthSpeed
+      let growthLimit = -growthSpeed;
       return this.overlap(tile.x, tile.y, growthLimit) ||
         this.overlap(tile.x + tile.r, tile.y, growthLimit) ||
         this.overlap(tile.x, tile.y + tile.r, growthLimit) ||
