@@ -4,7 +4,7 @@ function TileObject(x, y, color) {
   this.r = 2;
   this.color = color;
   this.growing = true;
-  this.type = "square";
+  this.type = "circle";
   this.initialr = 2;
 
   this.grow = function () {
@@ -24,6 +24,12 @@ function TileObject(x, y, color) {
       square(this.x, this.y, this.r);
     }
   };
+
+  this.hide = function () {
+    this.color = 0;
+    this.show();
+    this.r = 0;
+  }
 
   this.edges = function () {
     if (this.type == "circle") {

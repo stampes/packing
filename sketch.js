@@ -1,8 +1,8 @@
 let TileObjects;
 let img;
-let pixelsPerFrame = 80;
-let growthSpeed = 5;
-let maxLoops = 200;
+let pixelsPerFrame = 100;
+let growthSpeed = 4;
+let maxLoops = 1000;
 let tiles = [];
 let tilesDb;
 let largeTiles = 0;
@@ -46,7 +46,7 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  //background(0);
 
   let total = pixelsPerFrame;
   let count = 0;
@@ -60,7 +60,7 @@ function draw() {
     }
     attempts++;
     if (attempts > maxLoops) {
-      noLoop();
+      //      noLoop();
       console.log("finished");
       let minr = Infinity;
       let maxr = 0;
@@ -78,13 +78,14 @@ function draw() {
         if (largeLimit <= TileObjects[i].r) {
           largeTiles += 1;
         }
+        TileObjects[i].growing = true;
       }
       console.log(`largest     ${maxr}`);
       console.log(`smallest    ${minr}`);
       console.log(`small tiles ${smalTiles}`);
       console.log(`large tiles ${largeTiles}`)
       console.log(TileObjects.length);
-      break;
+      count = total;
     }
   }
 
@@ -110,6 +111,14 @@ function draw() {
 
     TileObject.show();
     TileObject.grow();
+  }
+  if (attempts > maxLoops) {
+    let drop = floor(TileObjects.length / 20);
+    TileObjects = TileObjects.slice(drop);
+    TileObjects = TileObjects.slice(-drop);
+    for (let i = 0; i < TileObjects.length; i++) {
+      TileObjects[i].growing = true;
+    }
   }
 }
 
