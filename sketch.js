@@ -86,6 +86,9 @@ function draw() {
       console.log(TileObjects.length);
       count = total;
       growthSpeed /= 1.2;
+      if (max < 2) {
+        noLoop();
+      }
     }
   }
 
