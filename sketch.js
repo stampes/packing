@@ -1,8 +1,8 @@
 let TileObjects;
 let img;
-let pixelsPerFrame = 100;
-let growthSpeed = 4;
-let maxLoops = 500;
+let pixelsPerFrame = 140;
+let growthSpeed = 5;
+let maxLoops = 280;
 let tiles = [];
 let tilesDb;
 let largeTiles = 0;
@@ -85,6 +85,7 @@ function draw() {
       console.log(`large tiles ${largeTiles}`)
       console.log(TileObjects.length);
       count = total;
+      growthSpeed /= 1.2;
     }
   }
 
